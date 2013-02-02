@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bionic.gorbachev.banksystem.dao;
 
 import com.bionic.gorbachev.banksystem.entity.Users;
@@ -9,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Aleksey Gorbachev
  */
+
 public class UsersDAO extends BaseDAO<Users> {
     //Запрос на выборку всех записей из таблицы
 
