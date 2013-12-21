@@ -72,14 +72,11 @@ public class RegisteredSocketThread implements Runnable {
                             result = loginFail;
                             break;
                         }
-                    } catch (SQLException ex) {
-                        //Ошибка при создании запроса к БД
+                    } catch (SQLException ex) {                    
                         result = regFail;
                         break;
                     }
-                } else {
-                    //Недопустимый логин\пароль
-                    
+                } else {                    
                     result = wrongInput;
                     break;
                 }
