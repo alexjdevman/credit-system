@@ -10,9 +10,9 @@ import javax.swing.JOptionPane;
  * @author Aleksey Gorbachev
  */
 
-//Класс обработки регистрации новых пользователей на основе сокетов
+//Class for registration new users with sockets
 public class RegistrationServer {
-    //Порт для сервера
+    //server port
 
     public static int serverPort = 8080;
 
@@ -20,15 +20,15 @@ public class RegistrationServer {
 
     public static void main(String[] args) {
         try {
-            //Создаем серверный сокет
+            //Creating server socket
             final ServerSocket servSocket = new ServerSocket(serverPort);
             JOptionPane.showMessageDialog(null, "Сервер регистрации запущен!");
             while (true) {
-                //Ожидаем подключения клиентов для регистрации
+                //Waiting for clients connections
                 System.out.println("Ожидание подключения...");
                 Socket socket = servSocket.accept();
                 registeredClients++;
-                //Запуск потока регистрации
+                //Starting registration thread
                 new Thread(new RegisteredSocketThread(socket)).start();
                 System.out.println("Подключился клиент");
             }
