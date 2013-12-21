@@ -17,17 +17,17 @@ import java.sql.SQLException;
  * @author Aleksey Gorbachev
  */
 
-//Class for registration user in thread
+//Класс для регистрации клиента в отдельном потоке
 public class RegisteredSocketThread implements Runnable {
-    //socket
+    //Сокет
 
     private Socket socket;
 
-    //streams for input output
+    //Потоки чтения и записи данных
     private InputStream is;
     private OutputStream os;
 
-    //Server responses
+    //Ответы, генерируемые сервером клиенту
     public static final String regOk = "OK";   //Успешно
     public static final String regFail = "ERROR";  //Ошибка запроса к БД
     public static final String loginFail = "LOGINFAIL";    //Логин уже занят
@@ -35,6 +35,7 @@ public class RegisteredSocketThread implements Runnable {
 
     public RegisteredSocketThread(Socket socket) throws IOException {
         this.socket = socket;
+        //Устанавливаем потоки
         this.is = socket.getInputStream();
         this.os = socket.getOutputStream();
     }
@@ -42,45 +43,47 @@ public class RegisteredSocketThread implements Runnable {
     private RegisteredSocketThread() {
     }
 
-    //Client registration
+    //Регистрация клиента
     public void run() {
+        //Создаем буферизированный поток чтения
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        
+        //Ответ клиенту
         String result;
         while (true) {
             try {
-                //Read data from client
+                //Читаем данные от клиента
                 String userLogin = br.readLine();
                 String userPassword = br.readLine();
                 if ((userLogin.length() != 0) && (userPassword.length() != 0)) {
                     try {
-                    
+                        //Создаем обьект доступа к базе данных
                         UsersDAO users = new UsersDAO();
-                        //checking the login exist
+                        //Проверка существования такого логина
                         if (users.checkLogin(userLogin)) {
+                            //Создаем нового пользователя
                             Users user = new Users();
-                            
+                            //Заполняем данные для пользователя
                             user.setUserName(userLogin);
                             user.setUserPsw(userPassword);
                             user.setUserState(RegForm.userDefaultState);
                             user.setUserTypeId(RegForm.userDefaultType);
-                            
+                            //Добавляем запись в таблицу
                             users.add(user);
-                            
+                            //Ответ клиенту
                             result = regOk;
                             break;
                         } else {
+                            //Логин уже занят
                             result = loginFail;
-                            
                             break;
                         }
                     } catch (SQLException ex) {
-                    
+                        //Ошибка при создании запроса к БД
                         result = regFail;
                         break;
                     }
                 } else {
-                
+                    //Недопустимый логин\пароль
                     result = wrongInput;
                     break;
                 }
@@ -90,10 +93,10 @@ public class RegisteredSocketThread implements Runnable {
                 break;
             }
         }
-        //send the response to client
+        //Отсылаем ответ клиенту
         PrintWriter pw = new PrintWriter(os, true);
         pw.println(result);
-        
+        //Закрываем потоки ввода\вывода и сокет
         try {
             is.close();
             os.close();
