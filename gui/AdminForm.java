@@ -72,12 +72,12 @@ public class AdminForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Редактирование кредитных программ
+    //Edit credit programs
     private void buttonCrProgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCrProgActionPerformed
         new CreditProgramForm().setAdminComponentsState();
     }//GEN-LAST:event_buttonCrProgActionPerformed
 
-    //Отображение формы пользователей
+    //Show users form
     private void buttonUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUsersActionPerformed
         new UsersForm();
     }//GEN-LAST:event_buttonUsersActionPerformed
